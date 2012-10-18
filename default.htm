@@ -1,0 +1,205 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Vejret</title>
+
+   <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+  <link rel="stylesheet" href="css/vejret.css" />
+  <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+  <script src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+  <script type="text/javascript" src="js/modernizr-1.6.min.js"></script>
+  <script type="text/javascript" src="js/vejret.js"></script>
+ <script type="text/javascript">
+
+       var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-3463228-1']);
+     _gaq.push(['_trackPageview']);
+
+     (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+
+</script>
+</head>
+<body>
+
+  <!-- To døgnsudsigt  -->
+  <div data-role="page" id="todoegn" data-theme="b">
+    <div data-role="header" data-theme="b" >
+      <h1>
+        2 døgn</h1>
+      <a href="#nedboersanimation" data-role="button" data-back="true">Nedbør</a>
+      <a href="#nidoegn" data-role="button">3-9 døgn</a>
+    </div>
+    <div data-role="content">
+      <img id="img2doegn" width="100%" alt="2 døgns vejrudsigt"/>
+    </div>
+    <div data-role="footer" data-theme="b">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#todoegn" class="ui-btn-active">Døgnudsigt</a></li>
+          <li><a href="#indstil">Indstil</a></li>
+          <li><a href="#om">Om</a></li>
+        </ul>
+      </div>
+      <h4>
+        <em>Vejret</em></h4>
+    </div>
+  </div>
+
+  <!-- 3-9 døgnsudsigt  -->
+  <div data-role="page" id="nidoegn" data-theme="b">
+    <div data-role="header" data-theme="b">
+      <h1>
+        3-9 døgn</h1>
+      <a href="#todoegn" data-role="button" data-back="true">2 døgn</a> 
+      <a href="#fjortendoegn" data-role="button" >10-14 døgn</a>
+    </div>
+    <!-- /header -->
+    <div data-role="content">
+      <img id="img9doegn" width="100%" alt="3-9 døgns vejrudsigt" />
+    </div>
+    <!-- /content -->
+    <div data-role="footer" data-theme="b">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#todoegn" class="ui-btn-active">Døgnudsigt</a></li>
+          <li><a href="#indstil">Indstil</a></li>
+          <li><a href="#om">Om</a></li>
+        </ul>
+      </div>
+      <h4>
+        <em>Vejret</em></h4>
+    </div>
+    <!-- /header -->
+  </div>
+
+  <!-- 10-14 døgnsudsigt  -->
+  <div data-role="page" id="fjortendoegn" data-theme="b">
+    <div data-role="header" data-theme="b">
+      <h1>
+        10-14 døgn</h1>
+      <a href="#nidoegn" data-role="button"  data-back="true">9 døgn</a> 
+      <a href="#nedboersanimation" data-role="button" >Nedbør</a>
+    </div>
+    <!-- /header -->
+    <div data-role="content">
+      <img id="img14doegn" width="100%" alt="10-14 døgns vejrudsigt"/>
+    </div>
+    <!-- /content -->
+    <div data-role="footer" data-theme="b">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#todoegn" class="ui-btn-active">Døgnudsigt</a></li>
+          <li><a href="#indstil">Indstil</a></li>
+          <li><a href="#om">Om</a></li>
+        </ul>
+      </div>
+      <h4>
+        <em>Vejret</em></h4>
+    </div>
+    <!-- /header -->
+  </div>
+
+  <!-- Nedbøranimation  -->
+  <div data-role="page" id="nedboersanimation" data-theme="b">
+    <div data-role="header" data-theme="b">
+      <h1>
+        Nedbørsanimation</h1>
+      <a href="#fjortendoegn" data-role="button" data-back="true">10-14 døgn</a>
+      <a href="#todoegn" data-role="button">2 døgn</a>
+    </div>
+    <div data-role="content">
+     <!-- <img id="img1" width="100%" src="http://www.dmi.dk/dmi/radaranim2.gif" alt="Nedbørsanimation"/> -->
+      <img id="img2" width="100%" src="http://www.dmi.dk/dmi/radar-animation640.gif" alt="Nedbørsanimation"/>
+      <img id="img3" width="100%" src="http://www.dmi.dk/dmi/radarlegend.gif" alt="Legend"/>
+    </div>
+    <div data-role="footer"  data-theme="b">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#todoegn" class="ui-btn-active">Døgnudsigt</a></li>
+          <li><a href="#indstil">Indstil</a></li>
+          <li><a href="#om">Om</a></li>
+        </ul>
+      </div>
+      <h4>
+        <em>Vejret</em></h4>
+    </div>
+  </div>
+
+  <!-- Indstillinger  -->
+  <div data-role="page" id="indstil" data-theme="b">
+    <div data-role="header" data-theme="b">
+      <h1>
+        Indstillinger</h1>
+      <a href="#" data-role="button" data-back="true" onclick="history.back(); return false">Tilbage</a> 
+    </div>
+    <!-- /header -->
+    <div data-role="content">
+      <div data-role="fieldcontain">
+        <fieldset data-role="controlgroup">
+          <legend>Lokationangivelse:</legend>
+          <input type="radio" name="lokvalg" id="gpslok" value="gps" checked="checked" />
+          <label for="gpslok">
+            Aktuel lokation (vha. GPS)</label>
+          <input type="radio" name="lokvalg" id="angivetlok" value="postnummer" />
+          <label for="angivetlok">
+            Angivet lokation</label>
+        </fieldset>
+        <div data-role="fieldcontain">
+          <label for="name">
+            Postnummer:</label>
+          <input type="number" name="postnummer" id="postnummer" value="1000" />
+        </div>
+      </div>
+    </div>
+    <div data-role="footer" data-theme="b">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#todoegn">Døgnudsigt</a></li>
+          <li><a href="#indstil" class="ui-btn-active">Indstil</a></li>
+          <li><a href="#om">Om</a></li>
+        </ul>
+      </div>
+      <h4>
+        <em>Vejret</em>
+      </h4>
+    </div>
+  </div>
+
+  
+  <!-- Om  -->
+  <div data-role="page" id="om" data-theme="b">
+    <div data-role="header" data-theme="b">
+      <h1>
+        Om vejret</h1>
+      <a href="#" data-role="button" data-back="true" onclick="history.back(); return false">Tilbage</a> 
+    </div>
+    <!-- /header -->
+    <div data-role="content">
+      <p><em>Vejret</em> er en mobil web applikation, som er baseret på <a href="http://vejret.oiorest.dk">vejret.oiorest.dk</a> samt på følgende data:</p> 
+      <ul>
+      <li>Vejrdata stammer fra <a href="http://dmi.dk">Danmarks Meteorologiske Institut (DMI)</a>.</li>
+      <li>Data om postnumrenes grænser stammer fra  
+      <a href="http://www.kms.dk/Produktkatalog/DAGI/DAGI-forside.htm">Danmarks Administrative Geografiske Inddeling (DAGI)</a>, 
+      som <a href="http://www.kms.dk">Kort & Matrikelstyrelsens (KMS)</a> har ophavsretten til.</li>
+      </ul>
+      <p><a href="mailto:finn@jordal.dk">Finn Jordal</a></p>
+    </div>
+    <div data-role="footer" data-theme="b">
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#todoegn">Døgnudsigt</a></li>
+          <li><a href="#indstil">Indstil</a></li>
+          <li><a href="#om" class="ui-btn-active">Om</a></li>
+        </ul>
+      </div>
+      <h4>
+        <em>Vejret</em></h4>
+    </div>
+  </div>
+
+</body>
+</html>
