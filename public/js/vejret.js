@@ -125,9 +125,12 @@ VEJRET.hentbilleder = function (postnr) {
   else if (postnr >= 5000 && postnr <= 5270) {
     postnr = 5000;
   }
-  $("#img2doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=" + postnr + "&mode=long");
-  $("#img9doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr?by=" + postnr + "&tabel=dag3_9");
-  $("#img14doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr?by=" + postnr + "&tabel=dag10_14");
+  //$("#img2doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=" + postnr + "&mode=long");
+  //$("#img9doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr?by=" + postnr + "&tabel=dag3_9");
+  //$("#img14doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr?by=" + postnr + "&tabel=dag10_14");
+  $("#img2doegn").attr("src", "images/" + postnr + "/2/byvejr.gif");
+  $("#img9doegn").attr("src", "images/" + postnr + "/9/byvejr.gif");
+  $("#img14doegn").attr("src", "images/" + postnr + "/14/byvejr.gif");
 };
 
 VEJRET.fejlikommunikation = function (xhr, status, errorThrown) {
