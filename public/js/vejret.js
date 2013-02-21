@@ -9,6 +9,11 @@ Function.prototype.curry = function curry() {
 };
 
 $(function () {
+  var socket = io.connect('http://localhost');
+  socket.on('animation', function (data) {
+    alert('event animation: ' + JSON.stringify(data));
+  });
+
   VEJRET.lokationsvalg = "gps";
   VEJRET.postnr = 1000;
   if (Modernizr.localstorage && localStorage["lokationsvalg"] != null) {

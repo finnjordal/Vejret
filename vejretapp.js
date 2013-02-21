@@ -1,5 +1,12 @@
 var express= require('express')
-	,	request= require('request');
+	,	request= require('request')
+	,	io = require('socket.io');
+
+
+var app= express()
+	, server = require('http').createServer(app)
+  , io = io.listen(server)
+  ,	port= 3000;
 
 var images= {};	
 
@@ -7,7 +14,7 @@ function getGif(externUrl, internUrl) {
 	request.get({uri: externUrl, encoding: null}, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 			console.log(internUrl);
-	  	images[internUrl]= body;
+	  	images[internUrl]= {url: externUrl, data: body};
 	  }
 	});
 }
@@ -15,7 +22,7 @@ function getGif(externUrl, internUrl) {
 function respond(res, internUrl) {
 	console.log('respond: ' + internUrl);
 	res.writeHead(200,{'Content-Type': 'image/gif'});
-	res.end(images[internUrl]);
+	res.end(images[internUrl].data);
 	console.log('respond slut: ');
 }
 
@@ -27,7 +34,7 @@ function getGifAndRespond(externUrl, internUrl, res) {
 		request.get({uri: externUrl, encoding: null}, function (error, response, body) {
 		  if (!error && response.statusCode == 200) {
 				console.log(internUrl);
-		  	images[internUrl]= body;
+		  	images[internUrl]= {url: externUrl, data: body};
 				respond(res, internUrl);
 		  }
 		});
@@ -36,7 +43,13 @@ function getGifAndRespond(externUrl, internUrl, res) {
 
 getGif('http://www.dmi.dk/dmi/radar-animation640.gif','/images/animation.gif');
 
-var app= express();
+// image skal ikke hentes for hver enkelt socket connection. Det skal fixes.
+io.sockets.on('connection', function (socket) {
+	setInterval(function () {	
+		getGif('http://www.dmi.dk/dmi/radar-animation640.gif','/images/animation.gif');
+  	socket.emit('animation', { hello: 'world' });
+	},10000);
+});
 
 app.use(express.static(__dirname + '/public'));
 
@@ -63,6 +76,6 @@ app.get('/images/:postnr/:dage/byvejr.gif', function (req,res) {
 	getGifAndRespond(url,req.originalUrl, res);
 });
 
-app.listen(3000, function () {
-	console.log('app listening on *:3000');
+server.listen(port, function () {
+	console.log('app listening on *:'+port);
 });
