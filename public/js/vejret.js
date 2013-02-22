@@ -10,8 +10,8 @@ Function.prototype.curry = function curry() {
 
 $(function () {
   var socket = io.connect('http://localhost');
-  socket.on('animation', function (data) {
-    alert('event animation: ' + JSON.stringify(data));
+  socket.on('animation', function (data) { 
+    $("#imganimation").attr("src", "/images/animation.gif");
   });
 
   VEJRET.lokationsvalg = "gps";
