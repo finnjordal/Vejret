@@ -1,6 +1,6 @@
 var express= require('express')
 	,	io = require('socket.io')
-	,	gif = require('./getgif.js');
+	,	Gif = require('./gif');
 
 
 var app= express()
@@ -8,11 +8,13 @@ var app= express()
   , io = io.listen(server)
   ,	port= 3000;
 
+var animation= new Gif('http://www.dmi.dk/dmi/radar-animation640.gif','/images/animation.gif');
+animation.on('event', function() {console.log('animation event')});
 
 // image skal ikke hentes for hver enkelt socket connection. Det skal fixes.
 io.sockets.on('connection', function (socket) {
 	setInterval(function () {	
-		gif.getGif('http://www.dmi.dk/dmi/radar-animation640.gif','/images/animation.gif');
+		animation.getGif();
   	socket.emit('animation', { hello: 'world' });
 	},10000);
 });
@@ -21,7 +23,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.get('/images/animation.gif', function (req,res) {
 	console.log("get('/images/animation.gif')");
-	gif.getGifAndRespond('http://www.dmi.dk/dmi/radar-animation640.gif','/images/animation.gif', res);
+	animation.getGifAndRespond(res);
 });
 
 app.get('/images/:postnr/:dage/byvejr.gif', function (req,res) {
@@ -39,7 +41,8 @@ app.get('/images/:postnr/:dage/byvejr.gif', function (req,res) {
 		url=  "http://servlet.dmi.dk/byvejr/servlet/byvejr?tabel=dag10_14";
 	}
 	url= url + "&by=" + postnr;
-	gif.getGifAndRespond(url,req.originalUrl, res);
+	var byvejr= new Gif(url,req.originalUrl);
+	byvejr.getGifAndRespond(res);
 });
 
 server.listen(port, function () {
