@@ -9,11 +9,6 @@ Function.prototype.curry = function curry() {
 };
 
 $(function () {
-  var socket = io.connect('http://localhost');
-  socket.on('animation', function (data) { 
-    $("#imganimation").attr("src", "/images/animation.gif");
-  });
-
   VEJRET.lokationsvalg = "gps";
   VEJRET.postnr = 1000;
   if (Modernizr.localstorage && localStorage["lokationsvalg"] != null) {
@@ -21,6 +16,13 @@ $(function () {
     VEJRET.postnr = localStorage["postnummer"];
   }
   VEJRET.update();
+
+  VEJRET.socket = io.connect('http://localhost');
+  VEJRET.socket.on('/images/animation.gif', function (data) {
+    //alert('animation'); 
+    $("#imganimation").attr("src", "/images/animation.gif");
+  });
+
   $('#indstil').live('pagebeforeshow', function (event, ui) {
     $("input[name=lokvalg]").val([VEJRET.lokationsvalg]);
     $('#postnummer').val(VEJRET.postnr)
@@ -133,9 +135,24 @@ VEJRET.hentbilleder = function (postnr) {
   //$("#img2doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr_dag1?by=" + postnr + "&mode=long");
   //$("#img9doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr?by=" + postnr + "&tabel=dag3_9");
   //$("#img14doegn").attr("src", "http://servlet.dmi.dk/byvejr/servlet/byvejr?by=" + postnr + "&tabel=dag10_14");
-  $("#img2doegn").attr("src", "images/" + postnr + "/2/byvejr.gif");
-  $("#img9doegn").attr("src", "images/" + postnr + "/9/byvejr.gif");
-  $("#img14doegn").attr("src", "images/" + postnr + "/14/byvejr.gif");
+  var url2= "images/" + postnr + "/2/byvejr.gif";
+  $("#img2doegn").attr("src", url2);
+  VEJRET.socket.emit('byvejr', {postnr: postnr, dage: 2});
+  VEJRET.socket.on(url2, function (data) {
+    $("#img2doegn").attr("src", url2);
+  });
+  var url9= "images/" + postnr + "/9/byvejr.gif";
+  $("#img9doegn").attr("src", url9);
+  VEJRET.socket.emit('byvejr', {postnr: postnr, dage: 9});
+  VEJRET.socket.on(url9, function (data) {
+    $("#img9doegn").attr("src", url9);
+  });
+  var url14= "images/" + postnr + "/14/byvejr.gif";
+  $("#img14doegn").attr("src", url14);
+  VEJRET.socket.emit('byvejr', {postnr: postnr, dage: 14});
+  VEJRET.socket.on(url14, function (data) {
+    $("#img9doegn").attr("src", url14);
+  });
 };
 
 VEJRET.fejlikommunikation = function (xhr, status, errorThrown) {

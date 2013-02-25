@@ -1,49 +1,55 @@
 var	request= require('request')
-	, EventEmitter = require('events'). EventEmitter
+	, EventEmitter = require('events').EventEmitter
 	, util = require("util");
 
-var images= {};	
+var Gifs= {};	
 
-function Gif (externUrl, internUrl) {
+function Gif (externUrl, internUrl, minutter) {
 	this.externUrl= externUrl;
 	this.internUrl= internUrl;
-	this.getGif();
+	this.ms= minutter*60*1000;
+	if (!Gifs[internUrl]) {	
+		this.internGetGif();
+		var me= this;
+		setInterval(function () {	
+			me.internGetGif();
+		},this.ms);
+	}
 }
 
 util.inherits(Gif, EventEmitter);
 
-Gif.prototype.getGif= function () {
+Gif.prototype.internGetGif= function () {
 	var me= this;
 	request.get({uri: this.externUrl, encoding: null}, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
-			console.log(me.internUrl);
-	  	images[me.internUrl]= {url: me.externUrl, data: body};
-	  	me.emit('event');
+			me.data= body;
+	  	Gifs[me.internUrl]= me;
+	  	me.emit(me.internUrl);
 	  }
 	});
 };
 
-Gif.prototype.respond= function (res) {
-	console.log('respond: ' + this.internUrl);
-	res.writeHead(200,{'Content-Type': 'image/gif'});
-	res.end(images[this.internUrl].data);
-	console.log('respond slut: ');
-};
-
-Gif.prototype.getGifAndRespond= function (res) {
-	if (images[this.internUrl]) {
-		this.respond(res);
+Gif.prototype.getGif= function (res) {
+	var me= this;
+	if (Gifs[this.internUrl]) {
+		this.respond(res); 
 	}
-	else {		
-		var me= this;
+	else {
 		request.get({uri: this.externUrl, encoding: null}, function (error, response, body) {
 		  if (!error && response.statusCode == 200) {
-				console.log(me.internUrl);
-		  	images[me.internUrl]= {url: me.externUrl, data: body};
-				me.respond(res);
+				me.data= body;
+		  	Gifs[me.internUrl]= me;  	
+				me.respond(res); 
 		  }
 		});
 	}
 };
 
-module.exports= Gif;
+Gif.prototype.respond= function (res) {
+	res.writeHead(200,{'Content-Type': 'image/gif'});
+	res.end(Gifs[this.internUrl].data);
+};
+
+module.exports.Gif= Gif;
+module.exports.Gifs= Gifs;
