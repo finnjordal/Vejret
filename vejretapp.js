@@ -7,7 +7,7 @@ var express= require('express')
 var app= express()
 	, server = require('http').createServer(app)
   , io = io.listen(server)
-  ,	port= 3000;
+  ,	port= 80;
 
 function buildInternUrl(postnr, dage) {
 	return '/images/' + postnr + '/' + dage + '/byvejr.gif';
